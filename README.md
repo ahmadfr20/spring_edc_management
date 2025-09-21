@@ -1,6 +1,8 @@
 # EDC Management API
 
-Aplikasi Spring Boot untuk manajemen terminal EDC dengan fitur echo, validasi signature HMAC-SHA256, dan logging.
+REST API Spring Boot untuk manajemen terminal EDC dengan fitur echo, validasi signature HMAC-SHA256, dan logging.
+
+Dibuat Oleh: Ahmad Fathoni R
 
 ## Teknologi yang Digunakan
 
@@ -272,7 +274,7 @@ API menggunakan format response standar:
 
 ## Security Features
 
-1. **Basic Authentication** untuk management endpoints
+1. **Basic Authentication** untuk management endpoint
 2. **HMAC-SHA256 signature validation** untuk echo endpoint
 3. **HTTPS headers** (HSTS, XSS Protection, etc.)
 4. **Request logging** dengan IP tracking
@@ -280,7 +282,7 @@ API menggunakan format response standar:
 
 ## Monitoring
 
-- Health check: `GET /api/test/health` (jika test endpoints enabled)
+- Health check: `GET /api/test/health` (jika test endpoint enabled)
 - Echo statistics: `GET /api/edc/echo-logs/stats`
 - Database dan log file monitoring
 

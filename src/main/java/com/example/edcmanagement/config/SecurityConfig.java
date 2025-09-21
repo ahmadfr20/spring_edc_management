@@ -25,7 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Configure in-memory authentication with NoOp encoder for simplicity
         auth.inMemoryAuthentication()
             .withUser(adminUsername)
             .password(adminPassword)
@@ -69,19 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Use NoOpPasswordEncoder for development (plain text passwords)
-        // For production, use BCryptPasswordEncoder with encoded passwords
         return NoOpPasswordEncoder.getInstance();
     }
-    
-    /* 
-    // Alternative: Use BCrypt with pre-encoded password
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    // If using BCrypt, update application.properties with encoded password:
-    // spring.security.user.password=$2a$10$your_bcrypt_encoded_password_here
-    */
 }

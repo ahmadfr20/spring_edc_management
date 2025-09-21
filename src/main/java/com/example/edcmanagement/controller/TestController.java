@@ -12,10 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Test controller for development and testing purposes
- * Only enabled when test.endpoints.enabled=true in application properties
- */
 @RestController
 @RequestMapping("/test")
 @ConditionalOnProperty(name = "test.endpoints.enabled", havingValue = "true")
@@ -23,10 +19,6 @@ public class TestController {
     
     @Autowired
     private SignatureService signatureService;
-    
-    /**
-     * Generate signature for testing EDC terminal requests
-     */
 
     @GetMapping("/generate-signature")
     public ResponseEntity<ApiResponse<Object>> generateSignature(
@@ -58,13 +50,9 @@ public class TestController {
     } catch (Exception e) {
         ApiResponse<Object> response = ApiResponse.error("Error generating signature: " + e.getMessage());
         return ResponseEntity.badRequest().body(response);
+        }
     }
-}
 
-
-    /**
-     * Validate a signature
-     */
     @PostMapping("/validate-signature")
     public ResponseEntity<ApiResponse<Object>> validateSignature(
             @RequestParam String terminalId,
@@ -102,19 +90,13 @@ public class TestController {
         }
     }
 
-    /**
-     * Health check endpoint
-     */
     @GetMapping("/health")
     public ResponseEntity<ApiResponse<String>> health() {
         ApiResponse<String> response = ApiResponse.success(
             "EDC Management API is running", "OK");
         return ResponseEntity.ok(response);
     }
-    
-    /**
-     * Generate curl example
-     */
+
     private String generateCurlExample(String terminalId, String signature) {
         return String.format(
             "curl -X POST http://localhost:8080/api/edc/echo \\\n" +

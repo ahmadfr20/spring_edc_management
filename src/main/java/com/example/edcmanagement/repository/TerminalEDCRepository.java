@@ -18,7 +18,6 @@ public interface TerminalEDCRepository extends JpaRepository<TerminalEDC, Long> 
     
     List<TerminalEDC> findByLocationContainingIgnoreCase(String location);
 
-    // Gantikan query manual → otomatis generate LIKE %location% dengan case-insensitive
     List<TerminalEDC> findByStatusAndLocationContainingIgnoreCase(String status, String location);
     
     Page<TerminalEDC> findByStatusOrderByCreatedAtDesc(String status, Pageable pageable);

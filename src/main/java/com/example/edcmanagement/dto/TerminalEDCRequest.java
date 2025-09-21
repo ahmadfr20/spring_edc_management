@@ -18,10 +18,8 @@ public class TerminalEDCRequest {
     private String ipAddress;
     private Integer port;
     
-    // Constructors
     public TerminalEDCRequest() {}
     
-    // Getters and Setters
     public String getTerminalId() {
         return terminalId;
     }

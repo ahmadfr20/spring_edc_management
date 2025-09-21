@@ -42,9 +42,6 @@ public class EchoController {
     @Autowired
     private TerminalEDCService terminalService;
     
-    /**
-     * Echo endpoint - receives requests from EDC terminals
-     */
     @PostMapping("/echo")
     public ResponseEntity<EchoResponse> echo(@Valid @RequestBody EchoRequest request, 
                                            HttpServletRequest httpRequest) {
@@ -58,14 +55,11 @@ public class EchoController {
         logger.info("Echo request received from terminal: {} at {}", terminalId, requestTimestamp);
         
         try {
-            // Validate signature
             boolean isSignatureValid = signatureService.validateSignatureWithTolerance(
                 signature, terminalId, requestTimestamp, 2); // 2 minutes tolerance
             
             if (!isSignatureValid) {
                 logger.warn("Invalid signature for terminal: {}", terminalId);
-                
-                // Log the failed attempt
                 echoLogService.createEchoLog(terminalId, clientIp, userAgent, 
                     false, "UNAUTHORIZED", "Invalid signature");
                 
@@ -75,11 +69,9 @@ public class EchoController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             
-            // Check if terminal exists
             if (!terminalService.existsByTerminalId(terminalId)) {
                 logger.warn("Unknown terminal ID: {}", terminalId);
-                
-                // Log the failed attempt
+
                 echoLogService.createEchoLog(terminalId, clientIp, userAgent, 
                     true, "NOT_FOUND", "Terminal not found");
                 
@@ -88,11 +80,9 @@ public class EchoController {
                 
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
-            // Update terminal last ping
+
             terminalService.updateLastPing(terminalId);
-            
-            // Log successful echo
+
             echoLogService.createEchoLog(terminalId, clientIp, userAgent, 
                 true, "SUCCESS", null);
             
@@ -105,8 +95,7 @@ public class EchoController {
             
         } catch (Exception e) {
             logger.error("Error processing echo request for terminal: {}", terminalId, e);
-            
-            // Log the error
+
             echoLogService.createEchoLog(terminalId, clientIp, userAgent, 
                 null, "ERROR", "Internal server error: " + e.getMessage());
             
@@ -116,10 +105,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get all echo logs with pagination
-     */
+
     @GetMapping("/echo-logs")
     public ResponseEntity<ApiResponse<Page<EchoLog>>> getAllEchoLogs(
             @RequestParam(defaultValue = "0") @Min(0) int page,
@@ -145,10 +131,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get echo logs by terminal ID
-     */
+
     @GetMapping("/echo-logs/terminal/{terminalId}")
     public ResponseEntity<ApiResponse<List<EchoLog>>> getEchoLogsByTerminalId(
             @PathVariable String terminalId) {
@@ -167,10 +150,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get echo logs by terminal ID with pagination
-     */
+
     @GetMapping("/echo-logs/terminal/{terminalId}/paged")
     public ResponseEntity<ApiResponse<Page<EchoLog>>> getEchoLogsByTerminalIdPaged(
             @PathVariable String terminalId,
@@ -194,10 +174,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get today's echo logs
-     */
+
     @GetMapping("/echo-logs/today")
     public ResponseEntity<ApiResponse<List<EchoLog>>> getTodayEchoLogs() {
         try {
@@ -214,10 +191,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get today's echo logs for a specific terminal
-     */
+
     @GetMapping("/echo-logs/today/terminal/{terminalId}")
     public ResponseEntity<ApiResponse<List<EchoLog>>> getTodayEchoLogsByTerminalId(
             @PathVariable String terminalId) {
@@ -236,10 +210,7 @@ public class EchoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get echo log statistics
-     */
+
     @GetMapping("/echo-logs/stats")
     public ResponseEntity<ApiResponse<Object>> getEchoLogStats() {
         try {
@@ -261,10 +232,6 @@ public class EchoController {
         }
     }
 
-    
-    /**
-     * Utility method to get client IP address
-     */
     private String getClientIpAddress(HttpServletRequest request) {
         String xForwardedForHeader = request.getHeader("X-Forwarded-For");
         if (xForwardedForHeader != null && !xForwardedForHeader.isEmpty()) {

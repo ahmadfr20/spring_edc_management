@@ -6,7 +6,6 @@ public class EchoLogStatsDto {
     private long invalidSignatures;
     private double validSignatureRate;
 
-    // constructor
     public EchoLogStatsDto(long totalLogs, long validSignatures, long invalidSignatures) {
         this.totalLogs = totalLogs;
         this.validSignatures = validSignatures;
@@ -15,7 +14,6 @@ public class EchoLogStatsDto {
             (double) validSignatures / totalLogs * 100 : 0.0;
     }
 
-    // getters
     public long getTotalLogs() { return totalLogs; }
     public long getValidSignatures() { return validSignatures; }
     public long getInvalidSignatures() { return invalidSignatures; }

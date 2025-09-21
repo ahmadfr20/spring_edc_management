@@ -19,13 +19,6 @@ public class SignatureService {
     @Value("${app.hmac.secret}")
     private String secretKey;
     
-    /**
-     * Validates the HMAC signature from the request header
-     * @param signature The signature from the request header
-     * @param terminalId The terminal ID from the request body
-     * @param requestDateTime The datetime when the request was received
-     * @return true if signature is valid, false otherwise
-     */
     public boolean validateSignature(String signature, String terminalId, LocalDateTime requestDateTime) {
         try {
             if (signature == null || signature.trim().isEmpty()) {

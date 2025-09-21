@@ -23,9 +23,6 @@ public class TerminalEDCService {
     @Autowired
     private TerminalEDCRepository terminalRepository;
     
-    /**
-     * Create a new terminal
-     */
     public TerminalEDC createTerminal(TerminalEDC terminal) {
         logger.info("Creating new terminal with ID: {}", terminal.getTerminalId());
         
@@ -40,52 +37,36 @@ public class TerminalEDCService {
         return savedTerminal;
     }
     
-    /**
-     * Get all terminals
-     */
     @Transactional(readOnly = true)
     public List<TerminalEDC> getAllTerminals() {
         logger.debug("Retrieving all terminals");
         return terminalRepository.findAll();
     }
-    
-    /**
-     * Get terminals with pagination
-     */
+
     @Transactional(readOnly = true)
     public Page<TerminalEDC> getAllTerminals(Pageable pageable) {
         logger.debug("Retrieving terminals with pagination");
         return terminalRepository.findAll(pageable);
     }
     
-    /**
-     * Get terminal by ID
-     */
     @Transactional(readOnly = true)
     public Optional<TerminalEDC> getTerminalById(Long id) {
         logger.debug("Retrieving terminal by ID: {}", id);
         return terminalRepository.findById(id);
     }
     
-    /**
-     * Get terminal by terminal ID
-     */
     @Transactional(readOnly = true)
     public Optional<TerminalEDC> getTerminalByTerminalId(String terminalId) {
         logger.debug("Retrieving terminal by terminal ID: {}", terminalId);
         return terminalRepository.findByTerminalId(terminalId);
     }
     
-    /**
-     * Update terminal
-     */
     public TerminalEDC updateTerminal(Long id, TerminalEDC terminalDetails) {
         logger.info("Updating terminal with ID: {}", id);
         
         TerminalEDC terminal = terminalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Terminal not found with ID: " + id));
         
-        // Check if terminalId is being changed and if new terminalId already exists
         if (!terminal.getTerminalId().equals(terminalDetails.getTerminalId())) {
             if (terminalRepository.existsByTerminalId(terminalDetails.getTerminalId())) {
                 throw new RuntimeException("Terminal with ID " + terminalDetails.getTerminalId() + " already exists");
@@ -106,9 +87,6 @@ public class TerminalEDCService {
         return updatedTerminal;
     }
     
-    /**
-     * Delete terminal by ID
-     */
     public void deleteTerminal(Long id) {
         logger.info("Deleting terminal with ID: {}", id);
         
@@ -119,27 +97,18 @@ public class TerminalEDCService {
         logger.info("Terminal deleted successfully with ID: {}", terminal.getTerminalId());
     }
     
-    /**
-     * Get terminals by status
-     */
     @Transactional(readOnly = true)
     public List<TerminalEDC> getTerminalsByStatus(String status) {
         logger.debug("Retrieving terminals by status: {}", status);
         return terminalRepository.findByStatus(status);
     }
     
-    /**
-     * Search terminals by location
-     */
     @Transactional(readOnly = true)
     public List<TerminalEDC> searchTerminalsByLocation(String location) {
         logger.debug("Searching terminals by location: {}", location);
         return terminalRepository.findByLocationContainingIgnoreCase(location);
     }
-    
-    /**
-     * Update terminal last ping time
-     */
+
     public void updateLastPing(String terminalId) {
         logger.debug("Updating last ping for terminal: {}", terminalId);
         
@@ -155,18 +124,12 @@ public class TerminalEDCService {
             logger.warn("Terminal not found for ping update: {}", terminalId);
         }
     }
-    
-    /**
-     * Check if terminal exists by terminal ID
-     */
+
     @Transactional(readOnly = true)
     public boolean existsByTerminalId(String terminalId) {
         return terminalRepository.existsByTerminalId(terminalId);
     }
-    
-    /**
-     * Get terminals by status with pagination
-     */
+
     @Transactional(readOnly = true)
     public Page<TerminalEDC> getTerminalsByStatus(String status, Pageable pageable) {
         logger.debug("Retrieving terminals by status with pagination: {}", status);

@@ -15,7 +15,6 @@ public class EchoResponse {
         this.message = message;
     }
     
-    // Getters and Setters
     public String getTerminalId() {
         return terminalId;
     }

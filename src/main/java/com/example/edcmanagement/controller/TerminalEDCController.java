@@ -30,10 +30,7 @@ public class TerminalEDCController {
     
     @Autowired
     private TerminalEDCService terminalService;
-    
-    /**
-     * Create new terminal
-     */
+
     @PostMapping
     public ResponseEntity<ApiResponse<TerminalEDC>> createTerminal(@Valid @RequestBody TerminalEDCRequest request) {
         try {
@@ -64,10 +61,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get all terminals with pagination
-     */
+
     @GetMapping
     public ResponseEntity<ApiResponse<Page<TerminalEDC>>> getAllTerminals(
             @RequestParam(defaultValue = "0") @Min(0) int page,
@@ -93,10 +87,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get terminal by ID
-     */
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<TerminalEDC>> getTerminalById(@PathVariable Long id) {
         try {
@@ -118,10 +109,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get terminal by terminal ID
-     */
+
     @GetMapping("/terminal/{terminalId}")
     public ResponseEntity<ApiResponse<TerminalEDC>> getTerminalByTerminalId(@PathVariable String terminalId) {
         try {
@@ -143,10 +131,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Update terminal
-     */
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<TerminalEDC>> updateTerminal(
             @PathVariable Long id, 
@@ -178,10 +163,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Delete terminal
-     */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTerminal(@PathVariable Long id) {
         try {
@@ -200,10 +182,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Get terminals by status
-     */
+
     @GetMapping("/status/{status}")
     public ResponseEntity<ApiResponse<List<TerminalEDC>>> getTerminalsByStatus(@PathVariable String status) {
         try {
@@ -220,10 +199,7 @@ public class TerminalEDCController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
-    /**
-     * Search terminals by location
-     */
+
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<TerminalEDC>>> searchTerminalsByLocation(
             @RequestParam String location) {
